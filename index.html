@@ -12,27 +12,45 @@
       --box-border: rgba(255,255,255,0.55);
       --muted: rgba(255,255,255,0.75);
       --teal: #3ddad7;
-    } 
+    }
 
     * { box-sizing: border-box; }
 
     body{
-      margin:0;
-      min-height:100vh;
+      margin: 0;
+      min-height: 100vh;
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #ffffff;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-      color:#fff;
       background:
         linear-gradient(var(--overlay), var(--overlay)),
-        url("venti-views-vahwUn0Uh0E-unsplash.jpg") center/cover no-repeat;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding: 24px;
+        url("venti-views-vahwUn0Uh0E-unsplash.jpg") center / cover no-repeat;
+      overflow: hidden;
+      animation: kenburns 40s ease-in-out infinite alternate;
+    }
+
+    /* Subtle cinematic motion */
+    @keyframes kenburns {
+      0% {
+        background-size: 100%;
+        background-position: center;
+      }
+      100% {
+        background-size: 108%;
+        background-position: center 6%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      body { animation: none; }
     }
 
     .wrap{
       width: min(1100px, 100%);
-      text-align:center;
     }
 
     .title{
@@ -43,10 +61,10 @@
     }
 
     .countdown{
-      display:flex;
+      display: flex;
       gap: 24px;
-      justify-content:center;
-      flex-wrap:wrap;
+      justify-content: center;
+      flex-wrap: wrap;
       margin: 0 0 34px 0;
     }
 
@@ -55,10 +73,10 @@
       height: 150px;
       border: 2px solid var(--box-border);
       border-radius: 26px;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       backdrop-filter: blur(2px);
     }
 
@@ -82,8 +100,9 @@
       line-height: 1.55;
     }
 
-    .copy .teal{ color: var(--teal); }
-    .copy .muted{ color: rgba(255,255,255,0.85); }
+    .copy .teal{
+      color: var(--teal);
+    }
   </style>
 </head>
 
@@ -117,6 +136,7 @@
   </div>
 
   <script>
+    // Set your launch date/time (local time)
     const launchDate = new Date("2026-03-15T09:00:00");
 
     const d = document.getElementById("days");
@@ -128,12 +148,16 @@
 
     function tick(){
       const diff = launchDate - new Date();
-      if(diff <= 0) return;
+
+      if (diff <= 0){
+        d.textContent = h.textContent = m.textContent = s.textContent = "00";
+        return;
+      }
 
       const t = Math.floor(diff / 1000);
       d.textContent = pad(Math.floor(t / 86400));
-      h.textContent = pad(Math.floor(t % 86400 / 3600));
-      m.textContent = pad(Math.floor(t % 3600 / 60));
+      h.textContent = pad(Math.floor((t % 86400) / 3600));
+      m.textContent = pad(Math.floor((t % 3600) / 60));
       s.textContent = pad(t % 60);
     }
 
