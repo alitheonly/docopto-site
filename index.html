@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>DocOpto — Coming Soon</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="description" content="Upload documents and get answers instantly. Chat today. Extract, analyze, and store data when you’re ready." />
 
   <style>
@@ -19,45 +19,68 @@
     body{
       margin: 0;
       min-height: 100vh;
-      padding: 24px;
+      overflow: hidden;
+      position: relative;
+      color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+
+      /* Safe-area padding for iPhone notches */
+      padding:
+        calc(24px + env(safe-area-inset-top))
+        calc(24px + env(safe-area-inset-right))
+        calc(24px + env(safe-area-inset-bottom))
+        calc(24px + env(safe-area-inset-left));
+
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
-      color: #ffffff;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-      background:
-        linear-gradient(var(--overlay), var(--overlay)),
-        url("venti-views-vahwUn0Uh0E-unsplash.jpg") center / cover no-repeat;
-      overflow: hidden;
+
+      /* fallback while image loads */
+      background: #06101f;
+    }
+
+    /* Background moved off body (fixes iPhone gray blocks) */
+    .bg{
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: url("venti-views-vahwUn0Uh0E-unsplash.jpg") center / cover no-repeat;
+      transform: scale(1.08);
+      will-change: transform;
       animation: kenburns 40s ease-in-out infinite alternate;
     }
 
-    /* Subtle cinematic motion */
-    @keyframes kenburns {
-      0% {
-        background-size: 100%;
-        background-position: center;
-      }
-      100% {
-        background-size: 108%;
-        background-position: center 6%;
-      }
+    .overlay{
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      background: var(--overlay);
+    }
+
+    /* Subtle cinematic motion (transform-based = mobile-safe) */
+    @keyframes kenburns{
+      0%   { transform: scale(1.08) translate3d(0px, 0px, 0); }
+      100% { transform: scale(1.14) translate3d(-14px, 10px, 0); }
     }
 
     @media (prefers-reduced-motion: reduce){
-      body { animation: none; }
+      .bg { animation: none; }
     }
 
     .wrap{
       width: min(1100px, 100%);
+      position: relative;
+      z-index: 2; /* above bg + overlay */
     }
 
     .title{
       font-weight: 300;
       font-size: clamp(44px, 6vw, 86px);
       letter-spacing: 0.5px;
+      line-height: 1.1;
       margin: 6px 0 26px 0;
+      text-wrap: balance;
     }
 
     .countdown{
@@ -103,10 +126,51 @@
     .copy .teal{
       color: var(--teal);
     }
+
+    /* Mobile tuning: keeps same style but fits cleanly */
+    @media (max-width: 420px){
+      body{
+        padding:
+          calc(18px + env(safe-area-inset-top))
+          calc(18px + env(safe-area-inset-right))
+          calc(18px + env(safe-area-inset-bottom))
+          calc(18px + env(safe-area-inset-left));
+      }
+
+      .title{
+        font-size: 34px;
+        margin: 6px 0 18px 0;
+      }
+
+      .countdown{
+        gap: 14px;
+        margin: 0 0 22px 0;
+      }
+
+      .card{
+        width: 154px;
+        height: 132px;
+        border-radius: 22px;
+      }
+
+      .num{ font-size: 56px; }
+
+      .label{
+        margin-top: 14px;
+        letter-spacing: 6px;
+      }
+
+      .copy{
+        font-size: 18px;
+      }
+    }
   </style>
 </head>
 
 <body>
+  <div class="bg"></div>
+  <div class="overlay"></div>
+
   <div class="wrap">
     <div class="title">DocOpto — Coming Soon</div>
 
