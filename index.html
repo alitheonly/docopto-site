@@ -3,39 +3,142 @@
 <head>
   <meta charset="UTF-8" />
   <title>DocOpto — Coming Soon</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Chat with your documents. Transform them into structured data.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Upload documents and get answers instantly. Chat today. Extract, analyze, and store data when you’re ready." />
 
   <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      font-family: Arial, Helvetica, sans-serif;
+    :root{
+      --overlay: rgba(0, 10, 25, 0.62);
+      --box-border: rgba(255,255,255,0.55);
+      --muted: rgba(255,255,255,0.75);
+      --teal: #3ddad7;
+    }
+
+    * { box-sizing: border-box; }
+
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      color:#fff;
       background:
-        linear-gradient(rgba(0,10,25,0.45), rgba(0,10,25,0.45)),
-        url('docopto-coming-soon-background-blue-sharp.png') center/cover no-repeat;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: #FFFFFF;
+        linear-gradient(var(--overlay), var(--overlay)),
+        url("venti-views-vahwUn0Uh0E-unsplash.jpg") center/cover no-repeat;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 24px;
     }
-    h1 {
-      font-size: 48px;
-      margin-bottom: 12px;
+
+    .wrap{
+      width: min(1100px, 100%);
+      text-align:center;
     }
-    p {
-      font-size: 18px;
-      max-width: 600px;
-      color: #D1D5DB;
-      margin: 0 auto;
+
+    .title{
+      font-weight: 300;
+      font-size: clamp(44px, 6vw, 86px);
+      letter-spacing: 0.5px;
+      margin: 6px 0 26px 0;
     }
+
+    .countdown{
+      display:flex;
+      gap: 24px;
+      justify-content:center;
+      flex-wrap:wrap;
+      margin: 0 0 34px 0;
+    }
+
+    .card{
+      width: 170px;
+      height: 150px;
+      border: 2px solid var(--box-border);
+      border-radius: 26px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      backdrop-filter: blur(2px);
+    }
+
+    .num{
+      font-weight: 300;
+      font-size: 64px;
+      line-height: 1;
+      letter-spacing: 1px;
+    }
+
+    .label{
+      margin-top: 18px;
+      font-size: 12px;
+      letter-spacing: 8px;
+      color: var(--muted);
+    }
+
+    .copy{
+      margin-top: 10px;
+      font-size: clamp(18px, 2.2vw, 26px);
+      line-height: 1.55;
+    }
+
+    .copy .teal{ color: var(--teal); }
+    .copy .muted{ color: rgba(255,255,255,0.85); }
   </style>
 </head>
+
 <body>
-  <div>
-    <h1>Coming Soon</h1>
-    <p>Chat with your documents. Transform them into structured data.</p>
+  <div class="wrap">
+    <div class="title">Soon :)</div>
+
+    <div class="countdown">
+      <div class="card">
+        <div id="days" class="num">00</div>
+        <div class="label">DAYS</div>
+      </div>
+      <div class="card">
+        <div id="hours" class="num">00</div>
+        <div class="label">HOURS</div>
+      </div>
+      <div class="card">
+        <div id="minutes" class="num">00</div>
+        <div class="label">MINUTES</div>
+      </div>
+      <div class="card">
+        <div id="seconds" class="num">00</div>
+        <div class="label">SECONDS</div>
+      </div>
+    </div>
+
+    <div class="copy">
+      <div class="teal">Upload documents and get answers instantly.</div>
+      <div class="muted">Chat today. Extract, analyze, and store data when you’re ready.</div>
+    </div>
   </div>
+
+  <script>
+    const launchDate = new Date("2026-02-01T09:00:00");
+
+    const d = document.getElementById("days");
+    const h = document.getElementById("hours");
+    const m = document.getElementById("minutes");
+    const s = document.getElementById("seconds");
+
+    const pad = n => String(n).padStart(2, "0");
+
+    function tick(){
+      const diff = launchDate - new Date();
+      if(diff <= 0) return;
+
+      const t = Math.floor(diff / 1000);
+      d.textContent = pad(Math.floor(t / 86400));
+      h.textContent = pad(Math.floor(t % 86400 / 3600));
+      m.textContent = pad(Math.floor(t % 3600 / 60));
+      s.textContent = pad(t % 60);
+    }
+
+    tick();
+    setInterval(tick, 1000);
+  </script>
 </body>
 </html>
